@@ -13,7 +13,7 @@
 #include <sstream>
 #undef main
 
-void desenhaNota(struct musica m, int indice, int idCor, int duracaoNota);
+void desenhaNota(SDL_Texture *textura, int idCor, int idadeNota, int alturaTela, int larguraTela, SDL_Renderer* renderizador, SDL_Rect recorteNota);
 SDL_Texture *carregaTextura(SDL_Renderer *renderizador, const char *imagem);
 SDL_Texture *carregaTextura(SDL_Renderer *renderizador, const char *texto, const char *fonte, SDL_Color cor, int tamanhoFonte);
 

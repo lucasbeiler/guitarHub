@@ -22,6 +22,13 @@ SDL_Texture *carregaTextura(SDL_Renderer *renderizador, const char *texto, const
     return textura;
 }
 
-void desenhaNota(musica m, int indice, int idCor, int duracaoNota){
-
+void desenhaNota(SDL_Texture *textura, int idCor, int idadeNota, int alturaTela, int larguraTela, SDL_Renderer* renderizador, SDL_Rect recorteNota){
+    double nIdadeNota = pow(idadeNota,1.9);
+    //std::cout << "Indice: " << idadeNota;
+    SDL_Rect rect;
+    rect.h = alturaTela * 0.01 + 0.0001  * nIdadeNota;
+    rect.w = larguraTela * 0.01 + 0.00015 * nIdadeNota;
+    rect.x = larguraTela * 0.50 - rect.w/2 + 25*(idCor-2) + (idCor-2)*0.00017*nIdadeNota;
+    rect.y = alturaTela * 0.32 + nIdadeNota*0.0008;
+    SDL_RenderCopy(renderizador, textura, &recorteNota, &rect);
 }

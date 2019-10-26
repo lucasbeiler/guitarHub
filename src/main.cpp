@@ -69,6 +69,7 @@ int main(void){
     SDL_Texture *notas = carregaTextura(renderizador, "res/notas.bmp");
     SDL_Texture *botoes = carregaTextura(renderizador, "res/pontos.bmp"); // aplica a superfície de pontos.bmp à textura.
     SDL_Texture *caminho = carregaTextura(renderizador, "res/caminho.bmp");
+    SDL_Texture *rastroVerde = carregaTextura(renderizador, "res/greenTrail.bmp");
 
     // retângulos referentes aos recortes dos sprites.
     SDL_Rect recorteNotaVerde = {0, 0, 119, 70};
@@ -78,11 +79,11 @@ int main(void){
     SDL_Rect recorteNotaLaranjada = {480, 0, 119, 70};
 
     // retângulos referentes às posições das notas na tela.
-    SDL_Rect notaVerde = {805, 500, 80, 47};
-    SDL_Rect notaVermelha = {865, 500, 80, 47};
-    SDL_Rect notaAmarela = {935, 500, 80, 47};
-    SDL_Rect notaAzul = {1000, 500, 80, 47};
-    SDL_Rect notaLaranjada = {1055, 500, 80, 47};
+    SDL_Rect notaVerde = {805, 700, 80, 47};
+    SDL_Rect notaVermelha = {865, 700, 80, 47};
+    SDL_Rect notaAmarela = {935, 700, 80, 47};
+    SDL_Rect notaAzul = {1000, 700, 80, 47};
+    SDL_Rect notaLaranjada = {1055, 700, 80, 47};
 
     SDL_Rect recorteBotaoVerde = {3, 0, 129, 128};
     SDL_Rect recorteBotaoVermelho = {146, 0, 129, 128};
@@ -105,13 +106,24 @@ int main(void){
     SDL_Rect pontuacaoNum = {700, 0, 40, 50};
     SDL_Texture *pontuacaoTextura = carregaTextura(renderizador, "Score", "res/fonte.ttf", {255, 255, 255}, 20);
 
+    int inicioNota = 0, idadeNota = 0;
+
+    SDL_Rect recortesNotas[] = {recorteNotaVerde, recorteNotaVermelha, recorteNotaAmarela, recorteNotaAzul, recorteNotaLaranjada};
+    
     Mix_PlayMusic(musica, 0); // inicia a música.
     int indice = 0;
     while(!fim){
-        if(m.tempoNota[indice] <= SDL_GetTicks() || m.tempoNota[indice+1] == m.tempoNota[indice]){
+        if(m.tempoNota[indice] <= SDL_GetTicks()){
                 //desenhaNota(m, indice, m.idCor[indice]);
+                inicioNota = SDL_GetTicks();
                 indice++;
         }
+        
+	// função abaixo desenha as notas caindo, mas com um bug: elas só caem até metade da tela.
+	desenhaNota(notas, m.idCor[indice], SDL_GetTicks() - inicioNota, alturaTela, larguraTela, renderizador, recortesNotas[m.idCor[indice]]);
+
+
+       // desenhaRastro(rastroVerde, m.idCor[indice], m.duracaoNota[indice], SDL_GetTicks() - inicioNota, 0, renderizador, alturaTela, larguraTela, notaVerde);
 
         SDL_RenderCopy(renderizador, caminho, NULL, &caminhoRetangulo);
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoVerde, &botaoVerde);
@@ -120,28 +132,11 @@ int main(void){
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoAzul, &botaoAzul);
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoLaranjado, &botaoLaranjado);
 
-        //verifica qual nota deve ser printada
-        if(m.idCor[indice] == 0){
-           SDL_RenderCopy(renderizador, notas, &recorteNotaVerde, &notaVerde);
-        }if(m.idCor[indice] == 1){
-           SDL_RenderCopy(renderizador, notas, &recorteNotaVermelha, &notaVermelha);
-        }if(m.idCor[indice] == 2){
-           SDL_RenderCopy(renderizador, notas, &recorteNotaAmarela, &notaAmarela);
-        }if(m.idCor[indice] == 3){
-           SDL_RenderCopy(renderizador, notas, &recorteNotaAzul, &notaAzul);
-        }if(m.idCor[indice] == 4){
-           SDL_RenderCopy(renderizador, notas, &recorteNotaLaranjada, &notaLaranjada);
-        }
-
-        // apresenta as texturas
         SDL_RenderPresent(renderizador);
-
-        // limpa a tela
         SDL_RenderClear(renderizador);
 
         //SDL_Delay(1000/120);
     }
-    // chama a função que encerra o programa e desaloca tudo.
     encerraPrograma(renderizador, janela, musica); // executa o encerramento quando o loop é quebrado.
 }
 }
