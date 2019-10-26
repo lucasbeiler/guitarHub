@@ -9,6 +9,7 @@
 #include <iostream>
 #include <SDL2/SDL.h> // SDL principal
 #include <sstream>
+#include <string.h>
 #include <sys/time.h>
 #include <SDL2/SDL_mixer.h> // para áudio
 #undef main

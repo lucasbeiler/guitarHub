@@ -55,13 +55,13 @@ int main(void){
         cout << SDL_GetError() << endl;
     }
 
-    const int alturaTela = obtemResolucaoTela().h, larguraTela = obtemResolucaoTela().w;
+    const int alturaTela = 720, larguraTela = 1280;
 
     // inicializa janela e renderizador.
     SDL_Window* janela = SDL_CreateWindow("GuitarHub", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, larguraTela, alturaTela, 0);
     SDL_Renderer* renderizador = SDL_CreateRenderer(janela, -1, SDL_RENDERER_ACCELERATED);
 
-    SDL_RenderSetLogicalSize(renderizador, larguraTela, alturaTela);
+    //SDL_RenderSetLogicalSize(renderizador, larguraTela, alturaTela);
     if(menu(renderizador) == '1'){
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); // inicializa o subsistema de áudio.
 
@@ -78,13 +78,6 @@ int main(void){
     SDL_Rect recorteNotaAzul = {360, 0, 119, 70};
     SDL_Rect recorteNotaLaranjada = {480, 0, 119, 70};
 
-    // retângulos referentes às posições das notas na tela.
-    SDL_Rect notaVerde = {805, 700, 80, 47};
-    SDL_Rect notaVermelha = {865, 700, 80, 47};
-    SDL_Rect notaAmarela = {935, 700, 80, 47};
-    SDL_Rect notaAzul = {1000, 700, 80, 47};
-    SDL_Rect notaLaranjada = {1055, 700, 80, 47};
-
     SDL_Rect recorteBotaoVerde = {3, 0, 129, 128};
     SDL_Rect recorteBotaoVermelho = {146, 0, 129, 128};
     SDL_Rect recorteBotaoAmarelo = {303, 0, 129, 128};
@@ -92,15 +85,15 @@ int main(void){
     SDL_Rect recorteBotaoLaranjado = {598, 0, 129, 128};
 
 
-    SDL_Rect botaoVerde = {615, 900, 100, 70};
-    SDL_Rect botaoVermelho = {770, 900, 100, 70};
-    SDL_Rect botaoAmarelo = {915, 900, 100, 70};
-    SDL_Rect botaoAzul = {1060, 900, 100, 70};
-    SDL_Rect botaoLaranjado = {1185, 900, 100, 70};
+    SDL_Rect botaoVerde = {415, 600, 60, 50};
+    SDL_Rect botaoVermelho = {515, 600, 60, 50};
+    SDL_Rect botaoAmarelo = {615, 600, 60, 50};
+    SDL_Rect botaoAzul = {715, 600, 60, 50};
+    SDL_Rect botaoLaranjado = {815, 600, 60, 50};
 
     //SDL_Rect recorteFogo = {767, 44, 179, 255};
 
-    SDL_Rect caminhoRetangulo = {0, 0, 1920, 1080};
+    SDL_Rect caminhoRetangulo = {0, 0, larguraTela, alturaTela};
 
     SDL_Rect pontuacaoTexto = {600, 0, 100, 50};
     SDL_Rect pontuacaoNum = {700, 0, 40, 50};
@@ -114,7 +107,6 @@ int main(void){
     int indice = 0;
     while(!fim){
         if(m.tempoNota[indice] <= SDL_GetTicks()){
-                //desenhaNota(m, indice, m.idCor[indice]);
                 inicioNota = SDL_GetTicks();
                 indice++;
         }
