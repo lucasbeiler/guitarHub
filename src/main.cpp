@@ -110,7 +110,7 @@ int main(void){
 
     SDL_Rect recortesNotas[] = {recorteNotaVerde, recorteNotaVermelha, recorteNotaAmarela, recorteNotaAzul, recorteNotaLaranjada};
     
-    Mix_PlayMusic(musica, 0); // inicia a música.
+    //Mix_PlayMusic(musica, 0); // inicia a música.
     int indice = 0;
     while(!fim){
         if(m.tempoNota[indice] <= SDL_GetTicks()){
@@ -120,7 +120,6 @@ int main(void){
         }
         
 	// função abaixo desenha as notas caindo, mas com um bug: elas só caem até metade da tela.
-	desenhaNota(notas, m.idCor[indice], SDL_GetTicks() - inicioNota, alturaTela, larguraTela, renderizador, recortesNotas[m.idCor[indice]]);
 
 
        // desenhaRastro(rastroVerde, m.idCor[indice], m.duracaoNota[indice], SDL_GetTicks() - inicioNota, 0, renderizador, alturaTela, larguraTela, notaVerde);
@@ -131,6 +130,8 @@ int main(void){
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoAmarelo, &botaoAmarelo);
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoAzul, &botaoAzul);
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoLaranjado, &botaoLaranjado);
+
+        desenhaNota(notas, m.idCor[indice], SDL_GetTicks() - inicioNota, alturaTela, larguraTela, renderizador, recortesNotas[m.idCor[indice]]);
 
         SDL_RenderPresent(renderizador);
         SDL_RenderClear(renderizador);
