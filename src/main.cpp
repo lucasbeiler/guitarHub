@@ -95,7 +95,7 @@ int main(void){
     //SDL_RenderSetLogicalSize(renderizador, larguraTela, alturaTela);
     if(menu(renderizador) == '1'){
 
-    //Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); // inicializa o subsistema de áudio.
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); // inicializa o subsistema de áudio.
 
     Mix_Music *musica = Mix_LoadMUS("res/DragonForce-OnceInALifetime.mp3"); // carrega a música.
     SDL_Texture *notas = carregaTextura(renderizador, "res/notas.bmp");
@@ -148,12 +148,16 @@ int main(void){
               //Pause Button
               if(obtemPosicaoMouse(mouse).x>=10 && obtemPosicaoMouse(mouse).x<=130 && obtemPosicaoMouse(mouse).y>10 && obtemPosicaoMouse(mouse).y<100){
                 paused = true;
+                Mix_PauseMusic();
                   while(paused == true){
                     while(SDL_PollEvent(&event)){
                        switch (event.type) {
+
                        //Quando o jogo sai do pause, a contagem do tempo não para, portanto as notas se teleportam
                          case SDL_MOUSEBUTTONDOWN:
+                           Mix_ResumeMusic();
                            paused = false;
+
                            break;
                        default:
                            break;
@@ -164,7 +168,7 @@ int main(void){
               //Exit button
               if(obtemPosicaoMouse(mouse).x>=10 && obtemPosicaoMouse(mouse).x<=130 && obtemPosicaoMouse(mouse).y>110 && obtemPosicaoMouse(mouse).y<200){
               escolha='0';
-
+                Mix_HaltMusic();
               }
                   break;
               default:
