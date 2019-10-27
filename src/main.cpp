@@ -42,14 +42,8 @@ char menu(SDL_Renderer *renderizador){
 
 int main(void){
     musica m;
-
-    //SDL_Point mouse;
-
-   // cout << obterPosicaoMouse(mouse);
     leChart(m);
-    char *pontuacaoChar;
-    bool fim = false, pause = false;
-    int velocidades[4] = {4, 4, 4, 4}, pontuacaoInt = 100;
+    bool fim = false;
 
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0){
         cout << SDL_GetError() << endl;
@@ -69,6 +63,7 @@ int main(void){
     SDL_Texture *notas = carregaTextura(renderizador, "res/notas.bmp");
     SDL_Texture *botoes = carregaTextura(renderizador, "res/pontos.bmp"); // aplica a superfície de pontos.bmp à textura.
     SDL_Texture *caminho = carregaTextura(renderizador, "res/caminho.bmp");
+
     SDL_Texture *rastroVerde = carregaTextura(renderizador, "res/greenTrail.bmp");
 
     // retângulos referentes aos recortes dos sprites.
@@ -84,37 +79,22 @@ int main(void){
     SDL_Rect recorteBotaoAzul = {456, 0, 129, 128};
     SDL_Rect recorteBotaoLaranjado = {598, 0, 129, 128};
 
-
     SDL_Rect botaoVerde = {415, 600, 60, 50};
     SDL_Rect botaoVermelho = {515, 600, 60, 50};
     SDL_Rect botaoAmarelo = {615, 600, 60, 50};
     SDL_Rect botaoAzul = {715, 600, 60, 50};
     SDL_Rect botaoLaranjado = {815, 600, 60, 50};
 
-    //SDL_Rect recorteFogo = {767, 44, 179, 255};
-
     SDL_Rect caminhoRetangulo = {0, 0, larguraTela, alturaTela};
 
-    SDL_Rect pontuacaoTexto = {600, 0, 100, 50};
-    SDL_Rect pontuacaoNum = {700, 0, 40, 50};
-    SDL_Texture *pontuacaoTextura = carregaTextura(renderizador, "Score", "res/fonte.ttf", {255, 255, 255}, 20);
-
-    int inicioNota = 0, idadeNota = 0;
+    int inicioNota = 0, notaPassada = 0;
 
     SDL_Rect recortesNotas[] = {recorteNotaVerde, recorteNotaVermelha, recorteNotaAmarela, recorteNotaAzul, recorteNotaLaranjada};
     
     //Mix_PlayMusic(musica, 0); // inicia a música.
     int indice = 0;
     while(!fim){
-        if(m.tempoNota[indice] <= SDL_GetTicks()){
-                inicioNota = SDL_GetTicks();
-                indice++;
-        }
-        
-	// função abaixo desenha as notas caindo, mas com um bug: elas só caem até metade da tela.
-
-
-       // desenhaRastro(rastroVerde, m.idCor[indice], m.duracaoNota[indice], SDL_GetTicks() - inicioNota, 0, renderizador, alturaTela, larguraTela, notaVerde);
+        cout << m.notaAtual << endl;
 
         SDL_RenderCopy(renderizador, caminho, NULL, &caminhoRetangulo);
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoVerde, &botaoVerde);
@@ -123,12 +103,18 @@ int main(void){
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoAzul, &botaoAzul);
         SDL_RenderCopy(renderizador, botoes, &recorteBotaoLaranjado, &botaoLaranjado);
 
-        desenhaNota(notas, m.idCor[indice], SDL_GetTicks() - inicioNota, alturaTela, larguraTela, renderizador, recortesNotas[m.idCor[indice]]);
+
+        desenhaNota(notas, m.idCor[m.notaAtual], SDL_GetTicks() - inicioNota, alturaTela, larguraTela, renderizador, recortesNotas[m.idCor[m.notaAtual]], &m);
+        if(m.notaAtual > notaPassada){
+            inicioNota = SDL_GetTicks();
+            desenhaNota(notas, m.idCor[m.notaAtual], SDL_GetTicks() - inicioNota, alturaTela, larguraTela, renderizador, recortesNotas[m.idCor[m.notaAtual]], &m);
+            notaPassada = m.notaAtual;
+        }
 
         SDL_RenderPresent(renderizador);
         SDL_RenderClear(renderizador);
 
-        //SDL_Delay(1000/120);
+        //SDL_Delay(1000);
     }
     encerraPrograma(renderizador, janela, musica); // executa o encerramento quando o loop é quebrado.
 }

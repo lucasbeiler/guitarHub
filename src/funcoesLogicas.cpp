@@ -55,8 +55,8 @@ void encerraPrograma(SDL_Renderer* renderizador, SDL_Window* janela, Mix_Music* 
 
 long long tempoMilisseg() {
     struct timeval tiv;
-    gettimeofday(&tiv, NULL); // get current time
-    long long ms = tiv.tv_sec*1000LL + tiv.tv_usec/1000; // calculate milliseconds
+    gettimeofday(&tiv, NULL);
+    long long ms = tiv.tv_sec*1000LL + tiv.tv_usec/1000;
     return ms;
 }
 

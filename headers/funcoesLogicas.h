@@ -23,6 +23,7 @@ long long tempoMilisseg();
 unsigned int converteStringParaUnsignedInt(std::string str);
 
 struct musica{
+    int notaAtual = 0;
     unsigned int *tempoNota = new unsigned int[qtdLinhasChart("res/DragonForce-OnceInALifetime.chart")];
     std::string *tipoNota = new std::string[qtdLinhasChart("res/DragonForce-OnceInALifetime.chart")];
     int *idCor = new int[qtdLinhasChart("res/DragonForce-OnceInALifetime.chart")];
