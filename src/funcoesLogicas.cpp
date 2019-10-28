@@ -31,7 +31,7 @@ SDL_Point obtemPosicaoMouse(SDL_Point mouse){
 }
 
 void leChart(musica m){
-    ifstream chart("res/DragonForce-OnceInALifetime.chart");
+    ifstream chart("res/ElectricEye.chart");
     string linha = "", temp;
     int nLinha = 0;
 

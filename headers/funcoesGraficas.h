@@ -14,8 +14,9 @@
 #include <sstream>
 #undef main
 
-void desenhaNota(SDL_Texture *textura, int idCor, int idadeNota, int alturaTela, int larguraTela, SDL_Renderer* renderizador, SDL_Rect recorteNota, struct musica *m);
-void desenhaNotas(SDL_Texture *textura, int idCor, int idadeNota, int alturaTela, int larguraTela, SDL_Renderer* renderizador, SDL_Rect recorteNota);
+void desenhaNota(SDL_Texture *textura, int idCor, int idadeNota, int alturaTela, int larguraTela, SDL_Renderer* renderizador, SDL_Rect recorteNota, SDL_Rect botao, int *pontuacao);
+void desenhaRastro(SDL_Texture *textura, int idCor, int idadeNota, int atraso, int alturaTela, int larguraTela, SDL_Renderer* renderizador, SDL_Rect botao, int *pontuacao);
+void desenhaNotas(struct musica *m, int tempoAtual, SDL_Rect todasAsNotas[], SDL_Texture *rastros[], SDL_Texture* notas, int alturaTela, int larguraTela, SDL_Renderer* renderizador);
 SDL_Texture *carregaTextura(SDL_Renderer *renderizador, const char *imagem);
 SDL_Texture *carregaTextura(SDL_Renderer *renderizador, const char *texto, const char *fonte, SDL_Color cor, int tamanhoFonte);
 

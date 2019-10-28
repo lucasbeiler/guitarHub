@@ -4,11 +4,13 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        src/controles.cpp \
         src/funcoesGraficas.cpp \
         src/funcoesLogicas.cpp \
         src/main.cpp
 
 HEADERS += \
+    headers/controles.h \
     headers/funcoesGraficas.h \
     headers/funcoesLogicas.h
 
